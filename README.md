@@ -2,11 +2,15 @@
 
 DSH (DeepSeek Harness) 客户端插件：按**真实 token 用量**预估当前会话的累计对话费用，使用 **DeepSeek 官方峰谷定价**（人民币 ¥）。
 
-在输入框下方显示费用统计（与系统自带的 stats 行并列，token 统计交给 stats 行，本插件专注金额）：
+在输入框工具行右端、发送键左侧显示一个紧凑的费用徽章：
 
 ```
-费用 ¥4.33   ← 悬停可看各模型分项（模型、金额、输入/输出 token）
+[输入框工具行 ...] [ ¥4.33 ] [发送键]
 ```
+
+- 徽章只显示金额，token 统计交给系统自带的 stats 行（避免重复与口径不一致）
+- **悬停徽章**可查看各模型分项：`模型: ¥金额（输入 X · 输出 Y）`
+- 无用量时显示 `¥0.00`
 
 ## 特性
 
@@ -14,7 +18,7 @@ DSH (DeepSeek Harness) 客户端插件：按**真实 token 用量**预估当前�
 - **按模型计价**：每个请求的模型来自 `request/header`，flash / pro 分价。
 - **峰谷定价**：按每个请求的**实际发生时间**（北京时间 UTC+8）判断高峰/空闲时段，历史累计跨时段也准确。
 - **纯客户端**：不注册 Host 服务，通过 `connection.api.sessions.history` 分页读取事件流，前端计价。
-- **显示位置**：`conversation.composer.dock` 槽位（输入框下方）。
+- **显示位置**：`conversation.input.right` 槽位（输入框工具行右端、发送键左侧），不占用额外行、不挤压系统 stats 行。
 
 ## 价目表（¥ / 1M tokens，2026-08-17 生效）
 
@@ -55,7 +59,7 @@ npm install git+https://github.com/Nomai7/dsh-conversation-billing.git
   name: dsh-conversation-billing
 ```
 
-重启 DSH 后，打开任意会话，输入框下方即可看到费用统计。
+重启 DSH 后，打开任意会话，发送键左侧即可看到费用徽章。
 
 ## 开发
 
